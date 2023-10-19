@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Noto+Sans:wght@400;700&family=Roboto&display=swap');
 
 .App {
   text-align: center;
@@ -238,6 +239,10 @@ form .form-group2 {
   width: 23.5rem;
 }
 
+.form-icon {
+  cursor: pointer;
+}
+
 .tombol-submit {
   position: relative;
   background-color: rgb(241, 1, 9);
@@ -457,3 +462,90 @@ img.Movie-image:hover {
 }
 
 /* movie detail end */
+
+/* search-bar start */
+
+.input {
+  border: 0;
+  outline: none;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap {
+  width: 400px;
+  margin-top: 9px;
+  margin-left: 27rem;
+  position: absolute;
+  z-index: 2;
+  content: '';
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap .search_box {
+  position: relative;
+  width: 400px;
+  height: 50px;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap .search_box .input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 98%;
+  height: 100%;
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-size: 18px;
+  background-color: transparent;
+  border: 2px solid rgb(241, 1, 9);
+  z-index: 1;
+  color: black;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap .search_box .input::placeholder {
+  color: black;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap .search_box .btn {
+  position: absolute;
+  top: 0;
+  left: 21.5rem;
+  width: 50px;
+  height: 100%;
+  background: blue;
+  z-index: 1;
+  cursor: pointer;
+  border: 2px solid rgb(241, 1, 9);
+}
+
+.search_wrap .search_box .btn:hover {
+  background: rgb(247, 191, 47);
+}
+
+.search_wrap .search_box .btn.btn_common .fa-solid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+}
+
+.search_wrap.search_wrap_3 .search_box .input {
+  padding-right: 80px;
+  border-radius: 50px;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.search_wrap.search_wrap_3 .search_box .btn {
+  right: 0;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/* search-bar end */

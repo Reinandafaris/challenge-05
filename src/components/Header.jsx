@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Navbar, Container, Nav, Col } from 'react-bootstrap';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { getMovieList } from '../api/api';
 
 function Header() {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [popularMovies, setPopularMovies] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -15,12 +13,6 @@ function Header() {
     if (token) {
       setIsLoggedIn(true);
     }
-  }, []);
-
-  useEffect(() => {
-    getMovieList().then((result) => {
-      setPopularMovies(result);
-    });
   }, []);
 
   const handleLoginClick = () => {
@@ -38,20 +30,8 @@ function Header() {
     dash.classList.remove('active');
   };
 
-  // const search = async (q) => {
-  //   if (q.length > 3) {
-  //     const query = await searchMovieList(q);
-  //     setPopularMovies(query.results);
-  //   }
-  // };
-
-  console.log({ popularMovies: popularMovies });
-
   return (
     <>
-      <Col className="cari text-center">
-        <input placeholder="What do you want to watch?" className="Movie-search" />
-      </Col>
       <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: 'transparent', position: 'absolute', width: '100%', zIndex: '1' }}>
         <Container>
           <Navbar.Brand as={Link} to="/">

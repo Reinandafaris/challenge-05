@@ -3,54 +3,14 @@ import { Col, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import CarouselSlider from '../../components/CarouselSlider';
-import { getMovieList } from '../../api/api';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   const [popularMovies, setPopularMovies] = useState([]);
   const [buttonText, setButtonText] = useState('More Movie');
   const [showAllMovies, setShowAllMovies] = useState(false);
-
-  // useEffect(() => {
-  //   const getPopularMovies = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-
-  //       const response = await axios.get(`https://shy-cloud-3319.fly.dev/api/v1/movie/popular`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-
-  //       const data = response.data.data;
-
-  //       setUser(data);
-  //       console.log(data);
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error)) {
-  //         // If not valid token
-  //         if (error.response.status === 401) {
-  //           localStorage.removeItem('token');
-  //           // Temporary solution
-  //           return (window.location.href = '/');
-  //         }
-
-  //         toast.error(error.response.data.message);
-  //         return;
-  //       }
-  //       toast.error(error.message);
-  //     }
-  //   };
-
-  //   getPopularMovies();
-  // }, []);
-
-  useEffect(() => {
-    getMovieList().then((result) => {
-      setPopularMovies(result);
-    });
-  }, []);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const getMe = async () => {
@@ -85,6 +45,45 @@ function Dashboard() {
     getMe();
   }, []);
 
+  useEffect(() => {
+    const apiUrl = `${import.meta.env.VITE_API}/v1/movie/popular`;
+    const token = localStorage.getItem('token');
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .get(apiUrl, config)
+      .then((response) => {
+        setPopularMovies(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+
+  async function searchMovie() {
+    if (search.trim() === '') {
+      return;
+    }
+
+    const apiSearch = await `${import.meta.env.VITE_API}/v1/search/movie?page=1&query=${search}`;
+    const token = await localStorage.getItem('token');
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios.get(apiSearch, config).then((response) => {
+      setPopularMovies(response.data.data);
+    });
+  }
+
   const PopularMovieList = () => {
     const limited = showAllMovies ? popularMovies : popularMovies.slice(0, 4);
     return limited.map((movie, i) => {
@@ -97,13 +96,6 @@ function Dashboard() {
       );
     });
   };
-
-  // const search = async (q) => {
-  //   if (q.length > 3) {
-  //     const query = await searchMovieList(q);
-  //     setPopularMovies(query.results);
-  //   }
-  // };
 
   const handleClickClose = () => {
     const dash = document.querySelector('.wrapper-dash');
@@ -153,7 +145,16 @@ function Dashboard() {
             {buttonText} <i className="fa-solid fa-arrow-right"></i>
           </h5>
         </Col>
+        <div className="search_wrap search_wrap_3">
+          <div className="search_box">
+            <input type="text" placeholder="What do you want to watch?" className="input" value={search} onChange={(e) => setSearch(e.target.value)} />
+            <div className="btn btn_common" onClick={searchMovie}>
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </div>
+          </div>
+        </div>
       </Row>
+
       <div className="Movie-container">
         <PopularMovieList />
       </div>

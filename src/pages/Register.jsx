@@ -12,6 +12,7 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isClicked, setIsClicked] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +54,12 @@ function Register() {
   const handleCloseRegister = () => {
     const register = document.querySelector('.wrapper-register');
     register.classList.remove('active');
+  };
+
+  const handleShowPassword = () => {
+    setIsClicked(!isClicked);
+    var passwordField = document.getElementById('passwordField');
+    passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
   };
 
   return (
@@ -98,10 +105,10 @@ function Register() {
                   </div>
                   <div className="line" id="formBasicPassword">
                     <div className="form-input">
-                      <input type="password" placeholder="Password" className="isi-form" value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <input type="password" id="passwordField" placeholder="Password" className="isi-form" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
-                    <div className="form-icon">
-                      <i className="fa-regular fa-eye"></i>
+                    <div className="form-icon" onClick={handleShowPassword}>
+                      {isClicked ? <i className="fa-solid fa-eye-slash"></i> : <i className="fa-regular fa-eye"></i>}
                     </div>
                   </div>
                   {/* <div className="line">
